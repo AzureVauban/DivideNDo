@@ -39,7 +39,7 @@ import FiBrArrowRight from "../../assets/icons/svg/fi-br-arrow-alt-right.svg";
 import FiBrArrowLeft from "../../assets/icons/svg/fi-br-arrow-alt-left.svg";
 import { useTasks } from "../../backend/storage/TasksContext";
 import { Task as ContextTask } from "../../backend/storage/TasksContext";
-import { Audio } from "expo-av";
+import { Audio, Video } from 'expo-av';
 /**
  * **MyList Screen**
  *
