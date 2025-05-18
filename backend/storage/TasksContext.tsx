@@ -4,6 +4,28 @@ import { View, Text } from "react-native";
 const TASKS_STORAGE_KEY = "TASKS_STORAGE_KEY";
 const LISTS_STORAGE_KEY = "LISTS_STORAGE_KEY";
 
+export const exportDataAsJSON = async () => {
+  try {
+    const tasksJson = await AsyncStorage.getItem("TASKS_STORAGE_KEY");
+    const listsJson = await AsyncStorage.getItem("LISTS_STORAGE_KEY");
+
+    const tasks = tasksJson ? JSON.parse(tasksJson) : [];
+    const lists = listsJson ? JSON.parse(listsJson) : [];
+
+    const exportData = {
+      lists,
+      tasks,
+    };
+
+    console.log(
+      "📦 Exported JSON Data:\n",
+      JSON.stringify(exportData, null, 2)
+    );
+  } catch (error) {
+    console.warn("Error exporting data as JSON:", error);
+  }
+};
+
 export interface Task {
   id: string;
   title: string;
@@ -35,6 +57,7 @@ export interface TasksContextValue {
   indentTask: (id: string, indentLevel: number) => void;
   reorderTasks: (listName: string, newOrder: Task[]) => void;
   flagTask: (id: string, isFlagged: boolean) => void;
+  exportDataAsJSON: () => Promise<void>;
 }
 
 // Hook to consume TasksContext
@@ -57,6 +80,7 @@ export const TasksContext = createContext<TasksContextValue>({
   indentTask: () => {},
   reorderTasks: () => {},
   flagTask: () => {},
+  exportDataAsJSON: async () => {},
 });
 
 export function TasksProvider({ children }: { children: React.ReactNode }) {
@@ -297,6 +321,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
         indentTask,
         reorderTasks: reorderTasks,
         flagTask,
+        exportDataAsJSON,
       }}
     >
       {children}
