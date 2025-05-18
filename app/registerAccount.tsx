@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
  */
 
 export default function SignUpScreen() {
-  console.log(`Current file name: SignUpScreen`);
+  console.log(`Current file name: registerAccount`);
 
   const router = useRouter();
   const navigation = useNavigation();
@@ -118,7 +118,6 @@ export default function SignUpScreen() {
       navigation.goBack();
     }
   };
-
 
   // Shared button style so both buttons have the same width.
   const sharedButtonStyle: TextStyle = {
@@ -373,6 +372,35 @@ export default function SignUpScreen() {
               }}
             >
               Register Account
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              sharedButtonStyle as ViewStyle,
+              {
+                backgroundColor: isDark
+                  ? colors.light.bluebutton_background
+                  : colors.dark.bluebutton_background,
+                alignSelf: "center",
+                marginTop: 10,
+              },
+            ]}
+            onPress={() => {
+              const newGeneratedUsername = generateUsername();
+              setUsername(newGeneratedUsername);
+              setInitialUsername(newGeneratedUsername);
+            }}
+          >
+            <Text
+              style={{
+                color: isDark
+                  ? colors.light.bluebutton_text_icon
+                  : colors.dark.bluebutton_text_icon,
+                fontSize: 16,
+                textAlign: "center",
+              }}
+            >
+              Generate Username
             </Text>
           </TouchableOpacity>
         </ScrollView>
