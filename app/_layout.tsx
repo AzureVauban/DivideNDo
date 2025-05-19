@@ -1,5 +1,5 @@
 import React from "react";
-import { Slot, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TasksProvider } from "../backend/storage/TasksContext";
 import { ThemeProvider } from "@theme/ThemeContext";

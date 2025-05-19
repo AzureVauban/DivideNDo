@@ -57,7 +57,9 @@ export default function LoginScreen() {
           style={[
             styles.input,
             {
-              backgroundColor: isDark ? colors.dark.background : colors.light.background,
+              backgroundColor: isDark
+                ? colors.dark.background
+                : colors.light.background,
               color: isDark ? colors.dark.text : colors.light.text,
               paddingVertical: 14,
               paddingHorizontal: 16,
@@ -75,7 +77,9 @@ export default function LoginScreen() {
           style={{
             height: 1,
             width: "100%",
-            backgroundColor: isDark ? colors.dark.secondary : colors.light.secondary,
+            backgroundColor: isDark
+              ? colors.dark.secondary
+              : colors.light.secondary,
             marginVertical: 10,
           }}
         />
@@ -83,7 +87,9 @@ export default function LoginScreen() {
           style={[
             styles.input,
             {
-              backgroundColor: isDark ? colors.dark.background : colors.light.background,
+              backgroundColor: isDark
+                ? colors.dark.background
+                : colors.light.background,
               color: isDark ? colors.dark.text : colors.light.text,
               paddingVertical: 14,
               paddingHorizontal: 16,
