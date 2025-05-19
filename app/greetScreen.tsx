@@ -156,7 +156,7 @@ export default function GreetScreen() {
             },
           ]}
         >
-          Compete tasks, get stuff done!
+          Complete tasks, get stuff done!
         </Text>
         <TouchableOpacity
           style={[
@@ -183,7 +183,7 @@ export default function GreetScreen() {
               },
             ]}
           >
-            Login with Email
+            Continue to home screen
           </Text>
         </TouchableOpacity>
         {/* Reset password button */}
