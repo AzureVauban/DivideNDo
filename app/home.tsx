@@ -4,6 +4,12 @@
  * Supports swipe gestures to navigate to the settings screen and manage lists.
  * Includes modals for adding and renaming task lists.
  */
+/**
+ * Home screen of the application.
+ * Displays grouped task categories and user-defined task lists.
+ * Supports swipe gestures to navigate to the settings screen and manage lists.
+ * Includes modals for adding and renaming task lists.
+ */
 import { useTheme } from "@theme/ThemeContext";
 import { colors } from "@theme/colors";
 import { styles } from "../app/theme/styles";
@@ -30,6 +36,8 @@ import {
 import FiBredit from "../assets/icons/svg/fi-br-text-box-edit.svg";
 import FiBrtrash from "../assets/icons/svg/fi-br-trash.svg";
 import { useTasks } from "../backend/storage/TasksContext";
+import { playInvalidSound } from "../app/utils/sounds/playInvalidSound";
+import { playRemoveSound } from "../app/utils/sounds/playRemoveSound";
 import { playInvalidSound } from "../app/utils/sounds/playInvalidSound";
 import { playRemoveSound } from "../app/utils/sounds/playRemoveSound";
 
@@ -111,6 +119,7 @@ export default function HomeScreen() {
           <View style={styles.taskGroupRow}>
             <Link
               href="/Lists/Groups/scheduled"
+              href="/Lists/Groups/scheduled"
               onPress={() => exportDataAsJSON()}
               style={[
                 styles.taskGroupButton,
@@ -133,6 +142,7 @@ export default function HomeScreen() {
               </Text>
             </Link>
             <Link
+              href="/Lists/Groups/all"
               href="/Lists/Groups/all"
               onPress={() => exportDataAsJSON()}
               style={[
@@ -159,6 +169,7 @@ export default function HomeScreen() {
           <View style={styles.taskGroupRow}>
             <Link
               href="/Lists/Groups/flagged"
+              href="/Lists/Groups/flagged"
               onPress={() => exportDataAsJSON()}
               style={[
                 styles.taskGroupButton,
@@ -181,6 +192,7 @@ export default function HomeScreen() {
               </Text>
             </Link>
             <Link
+              href="/Lists/Groups/completed"
               href="/Lists/Groups/completed"
               onPress={() => exportDataAsJSON()}
               style={[
@@ -299,6 +311,7 @@ export default function HomeScreen() {
                     ]}
                     onPress={() => {
                       exportDataAsJSON();
+                      router.push(`/Lists/${item.name}` as const);
                       router.push(`/Lists/${item.name}` as const);
                     }}
                   >
@@ -508,6 +521,7 @@ export default function HomeScreen() {
                   // Call context renameList to update storage and state
                   renameList(renameTarget.id, trimmedName);
                   // Navigate to the renamed list screen
+                  router.replace(`/Lists/${trimmedName}`);
                   router.replace(`/Lists/${trimmedName}`);
                   setRenameModalVisible(false);
                 }}
