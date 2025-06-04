@@ -68,11 +68,6 @@ assets/soundeffects/
 # Unignore email-templates HTML files
 !email-templates/
 !email-templates/*.html
-=======
-<<<<<<< HEAD
 *.sh
 clean.py
-=======
-*.sh
-clean.py
->>>>>>> develop
+logs
