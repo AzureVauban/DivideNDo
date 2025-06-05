@@ -8,7 +8,7 @@ import { SettingsProvider } from "../lib/SettingsContext";
 import Auth from "./authentication/auth";
 
 export default function RootLayout() {
-  console.log(`Current file name: _layout()`);
+  console.log("RootLayout rendered");
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar hidden />

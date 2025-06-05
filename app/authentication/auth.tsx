@@ -15,11 +15,17 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function useAuth(): AuthContextType {
+  console.log("Auth component rendered (AuthContextType() function called)");
+
+  if (!AuthContext) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
   return useContext(AuthContext);
 }
 
 export default function Auth({ children }: { children: React.ReactNode }) {
-  console.log(`Current file name: Auth()`);
+  console.log("Auth component rendered");
+
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
