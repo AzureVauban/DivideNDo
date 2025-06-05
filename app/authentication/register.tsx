@@ -239,7 +239,6 @@ export default function LoginScreen() {
           { backgroundColor: colors[theme].primary },
         ]}
         onPress={async () => {
-          //! FEATURE/DATABASE_IMPLEMENTATION BUTTON CRASH HAPPENS ON PRESS
           console.log("002 :[Register] Continue button pressed");
           const isUsernameValid = username.length >= 3;
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -332,8 +331,6 @@ export default function LoginScreen() {
                 password,
               },
             });
-            //!  router.push("/notfound"); //? TENTATIVE ROUTE TO AVOID CRASH
-            //! CRASH STILL OCCURS ON BUTTON PRESS OF CONTINUE
 
             // After successful registration and email is known:
             console.log("017 :[Register] Upserting profile in database");
