@@ -37,6 +37,7 @@ export default function RuntimeDebugScreen() {
   // Use Auth context for user/session
   const { user, session } = useAuth();
 
+  console.log("[DebugScreen] user:", user, "session:", session);
   // Hydrate debug toggle from AsyncStorage on mount
   useEffect(() => {
     (async () => {

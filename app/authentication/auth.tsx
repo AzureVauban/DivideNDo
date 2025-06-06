@@ -32,12 +32,12 @@ export default function Auth({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch initial session
     supabase.auth
       .getSession()
       .then(({ data: { session: initialSession } }) => {
-        setSession(initialSession);
         setUser(initialSession?.user ?? null);
+        setSession(initialSession);
+        console.log("[Auth] Initial session:", initialSession);
       })
       .catch((error) => console.error("Error fetching session:", error))
       .finally(() => setLoading(false));
@@ -48,6 +48,7 @@ export default function Auth({ children }: { children: React.ReactNode }) {
     } = supabase.auth.onAuthStateChange((event, newSession) => {
       setSession(newSession);
       setUser(newSession?.user ?? null);
+      console.log("[Auth] Auth state changed:", event, newSession);
       if (event === "SIGNED_IN") {
         router.replace("/home");
       }
@@ -60,6 +61,7 @@ export default function Auth({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Listen for deep link events
     const handleDeepLink = async (event: { url: string }) => {
+      console.log("[Auth] Deep link event:", event.url);
       // Wait for session to be available
       const {
         data: { session },
