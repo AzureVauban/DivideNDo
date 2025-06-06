@@ -62,60 +62,34 @@ export default function Auth({ children }: { children: React.ReactNode }) {
     // Listen for deep link events
     const handleDeepLink = async (event: { url: string }) => {
       console.log("[Auth] Deep link event:", event.url);
-      // Wait for session to be available
+
+      // Manually fetch the session after deep link
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      if (session?.user?.email) {
-        // Fetch username from profiles table
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("display_name")
-          .eq("email", session.user.email)
-          .maybeSingle();
+      console.log("[Auth] Session after deep link:", session);
 
-        // If no profile, insert one using display_name from user_metadata
-        if (!profile) {
-          const displayName =
-            session.user.user_metadata?.display_name ||
-            session.user.user_metadata?.username ||
-            session.user.email;
-          await supabase.from("profiles").insert([
-            {
-              email: session.user.email,
-              display_name: displayName,
-              username: displayName,
-            },
-          ]);
-          console.log(`Created profile for ${displayName}`);
-        } else if (!profile.display_name) {
-          // If profile exists but missing display_name, update it
-          const displayName =
-            session.user.user_metadata?.display_name ||
-            session.user.user_metadata?.username ||
-            session.user.email;
-          await supabase
-            .from("profiles")
-            .update({ display_name: displayName, username: displayName })
-            .eq("email", session.user.email);
-          console.log(`Updated profile for ${displayName}`);
-        } else {
-          console.log(`Welcome back ${profile.display_name}`);
-        }
-      }
+      // Optionally update context state if needed:
+      setSession(session);
+      setUser(session?.user ?? null);
     };
 
-    // Subscribe to deep link events
     const subscription = Linking.addEventListener("url", handleDeepLink);
 
-    // Also check if app was opened from a deep link initially
-    Linking.getInitialURL().then((url) => {
-      if (url) handleDeepLink({ url });
+    // Optionally check initial URL on mount
+    Linking.getInitialURL().then(async (url) => {
+      if (url) {
+        console.log("[Auth] Initial deep link URL:", url);
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        console.log("[Auth] Session after initial URL:", session);
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
     });
 
-    return () => {
-      subscription.remove();
-    };
+    return () => subscription.remove();
   }, []);
 
   if (loading) {
