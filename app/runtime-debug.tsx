@@ -87,6 +87,21 @@ export default function RuntimeDebugScreen() {
     }
   };
 
+  // Utility to clear only Supabase session token (not all app data)
+  const clearSupabaseSession = async () => {
+    try {
+      await AsyncStorage.removeItem("supabase.auth.token");
+      console.log(
+        "[RuntimeDebugScreen] Cleared Supabase session token from AsyncStorage."
+      );
+    } catch (e) {
+      console.error(
+        "[RuntimeDebugScreen] Failed to clear Supabase session token:",
+        e
+      );
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -187,6 +202,32 @@ export default function RuntimeDebugScreen() {
                   </Text>
                 )}
               </View>
+              <TouchableOpacity  style={[
+                        styles.addTaskListButton,
+                        {
+                          width: 300,
+                          marginVertical: 6,
+                          backgroundColor: soundEnabled
+                            ? isDark
+                              ? colors.dark.greenbutton_background
+                              : colors.light.greenbutton_background
+                            : isDark
+                            ? colors.dark.tertiary
+                            : colors.light.tertiary,
+                        },
+                      ]}
+               onPress={clearSupabaseSession}>
+                <Text
+                  style={{
+                    color: isDark ? colors.dark.text : colors.light.text,
+                    fontSize: 14,
+                    fontWeight: "bold",
+                    marginBottom: 4,
+                  }}
+                >
+                  Clear Supabase Session
+                </Text>
+              </TouchableOpacity>
             </View>
             {/* Sound Effect Test Buttons */}
             <View
