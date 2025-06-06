@@ -10,9 +10,9 @@ import Auth from "./authentication/auth";
 export default function RootLayout() {
   console.log("RootLayout rendered");
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar hidden />
-      <Auth>
+    <Auth>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StatusBar hidden />
         <SettingsProvider>
           <ThemeProvider>
             <TasksProvider>
@@ -26,7 +26,7 @@ export default function RootLayout() {
             </TasksProvider>
           </ThemeProvider>
         </SettingsProvider>
-      </Auth>
-    </GestureHandlerRootView>
+      </GestureHandlerRootView>
+    </Auth>
   );
 }
