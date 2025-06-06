@@ -202,21 +202,23 @@ export default function RuntimeDebugScreen() {
                   </Text>
                 )}
               </View>
-              <TouchableOpacity  style={[
-                        styles.addTaskListButton,
-                        {
-                          width: 300,
-                          marginVertical: 6,
-                          backgroundColor: soundEnabled
-                            ? isDark
-                              ? colors.dark.greenbutton_background
-                              : colors.light.greenbutton_background
-                            : isDark
-                            ? colors.dark.tertiary
-                            : colors.light.tertiary,
-                        },
-                      ]}
-               onPress={clearSupabaseSession}>
+              <TouchableOpacity
+                style={[
+                  styles.addTaskListButton,
+                  {
+                    width: 300,
+                    marginVertical: 6,
+                    backgroundColor: soundEnabled
+                      ? isDark
+                        ? colors.dark.greenbutton_background
+                        : colors.light.greenbutton_background
+                      : isDark
+                      ? colors.dark.tertiary
+                      : colors.light.tertiary,
+                  },
+                ]}
+                onPress={clearSupabaseSession}
+              >
                 <Text
                   style={{
                     color: isDark ? colors.dark.text : colors.light.text,
