@@ -1,26 +1,31 @@
-#### Title: DivideNDo
+THIS BRANCH IS FOR TESTING PURPOSES ONLY
+CLONE THIS BRANCH, REBUILD AND INSTALL ON ANDROID EMULATOR DEVICE/IOS SIMULATOR.
 
-#### Description:
+Make sure you have the following installed on your computer:
+- Android Stuido
+- XCode
+- yarn package manager
+- expo GO (allows for phsyical device testing)
+```bash
 
-#### Project Structure (make sure the list what each file does):
+# inital install of the dependencies
+npx expo install
 
-#### Tech Stack:
+# if you already have the dependencies installed, you can skip this step
+rm -rf node_modules yarn.lock package-lock.json
+rm -rf android/build android/app/build android/.gradle
+rm -rf ios/Pods ios/Podfile.lock ios/build
 
-- Supabase
-- Expo & React-Native
+# Reinstall dependencies
+npx expo prebuild --clean
+cd ios && pod install && cd ..
+cd android && ./gradlew clean && cd ..
 
-#### Misc Notes:
+# uninstall from app
+adb uninstall com.yourapp.sussySushi
 
-`feature/` introduction of a feature
-
-`enhancement/` rework or enhancement of an existing feature
-
-`demo/` for display, this branch is not complete enough to go to develop but is complete enough to present to others
-
-`e/` on a commit message means erroring commit, project will experience poor runtime behavior
-
-`r/` on a commit miessage means revertable or droppable, removing the commit from the git history is the intention
-
-`t/` on a commit message means complete but untested, test and if code on commit does not work, revert/drop the commit
-
-#### Author: Michael Elder
+# Rebuild the app
+npx expo run:ios
+npx expo run:android
+```
+= any changes or solution goes into feature/database_implementation
