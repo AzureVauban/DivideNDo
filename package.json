@@ -26,7 +26,7 @@
     "babel": "^6.23.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "expo": "^53.0.5",
+    "expo": "^53.0.10",
     "expo-auth-session": "^6.2.0",
     "expo-av": "^15.1.4",
     "expo-blur": "~14.1.4",
