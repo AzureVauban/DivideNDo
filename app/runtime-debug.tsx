@@ -48,6 +48,17 @@ export default function RuntimeDebugScreen() {
     })();
   }, []);
 
+  // Manual session fetch on mount
+  useEffect(() => {
+    const fetchSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      console.log("[RuntimeDebugScreen] Manual session fetch:", session);
+    };
+    fetchSession();
+  }, []);
+
   // Gesture navigation logic
   const onGestureEvent = (event: GestureHandlerGestureEvent) => {
     const translationX = (
