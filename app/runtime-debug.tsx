@@ -37,6 +37,7 @@ export default function RuntimeDebugScreen() {
   // Use Auth context for user/session
   const { user, session } = useAuth();
 
+  console.log("[DebugScreen] user:", user, "session:", session);
   // Hydrate debug toggle from AsyncStorage on mount
   useEffect(() => {
     (async () => {
@@ -45,6 +46,17 @@ export default function RuntimeDebugScreen() {
         setShowDebug(value === "true");
       } catch {}
     })();
+  }, []);
+
+  // Manual session fetch on mount
+  useEffect(() => {
+    const fetchSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      console.log("[RuntimeDebugScreen] Manual session fetch:", session);
+    };
+    fetchSession();
   }, []);
 
   // Gesture navigation logic
@@ -72,6 +84,21 @@ export default function RuntimeDebugScreen() {
       setTimeout(() => {
         hasNavigated.current = false;
       }, 1500);
+    }
+  };
+
+  // Utility to clear only Supabase session token (not all app data)
+  const clearSupabaseSession = async () => {
+    try {
+      await AsyncStorage.removeItem("supabase.auth.token");
+      console.log(
+        "[RuntimeDebugScreen] Cleared Supabase session token from AsyncStorage."
+      );
+    } catch (e) {
+      console.error(
+        "[RuntimeDebugScreen] Failed to clear Supabase session token:",
+        e
+      );
     }
   };
 
@@ -175,6 +202,34 @@ export default function RuntimeDebugScreen() {
                   </Text>
                 )}
               </View>
+              <TouchableOpacity
+                style={[
+                  styles.addTaskListButton,
+                  {
+                    width: 300,
+                    marginVertical: 6,
+                    backgroundColor: soundEnabled
+                      ? isDark
+                        ? colors.dark.greenbutton_background
+                        : colors.light.greenbutton_background
+                      : isDark
+                      ? colors.dark.tertiary
+                      : colors.light.tertiary,
+                  },
+                ]}
+                onPress={clearSupabaseSession}
+              >
+                <Text
+                  style={{
+                    color: isDark ? colors.dark.text : colors.light.text,
+                    fontSize: 14,
+                    fontWeight: "bold",
+                    marginBottom: 4,
+                  }}
+                >
+                  Clear Supabase Session
+                </Text>
+              </TouchableOpacity>
             </View>
             {/* Sound Effect Test Buttons */}
             <View
