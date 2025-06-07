@@ -94,6 +94,6 @@
   "author": "Michael Elder <niv14@txstate.edu>",
   "license": "MIT",
   "resolutions": {
-    "@expo/cli": "0.24.10"
+    "@expo/cli": "0.24.14"
   }
 }
