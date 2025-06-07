@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Linking, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { useRouter } from "expo-router";
 import type { Session, User } from "@supabase/supabase-js";
+import * as Linking from "expo-linking";
 import { supabase } from "../../lib/supabaseClient";
 
 type AuthContextType = {
@@ -63,13 +64,36 @@ export default function Auth({ children }: { children: React.ReactNode }) {
     const handleDeepLink = async (event: { url: string }) => {
       console.log("[Auth] Deep link event:", event.url);
 
-      // Manually fetch the session after deep link
+      // Parse tokens from the URL fragment (after #)
+      const fragment = event.url.split("#")[1];
+      if (fragment) {
+        const params = new URLSearchParams(fragment);
+        const access_token = params.get("access_token");
+        const refresh_token = params.get("refresh_token");
+        if (access_token && refresh_token) {
+          // Set the session in Supabase
+          const { data, error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token,
+          });
+          if (error) {
+            console.error(
+              "[Auth] Error setting session from magic link:",
+              error
+            );
+          } else {
+            console.log("[Auth] Session set from magic link:", data.session);
+            setSession(data.session);
+            setUser(data.session?.user ?? null);
+          }
+        }
+      }
+
+      // Fallback: fetch session as usual
       const {
         data: { session },
       } = await supabase.auth.getSession();
       console.log("[Auth] Session after deep link:", session);
-
-      // Optionally update context state if needed:
       setSession(session);
       setUser(session?.user ?? null);
     };
@@ -79,13 +103,7 @@ export default function Auth({ children }: { children: React.ReactNode }) {
     // Optionally check initial URL on mount
     Linking.getInitialURL().then(async (url) => {
       if (url) {
-        console.log("[Auth] Initial deep link URL:", url);
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-        console.log("[Auth] Session after initial URL:", session);
-        setSession(session);
-        setUser(session?.user ?? null);
+        await handleDeepLink({ url });
       }
     });
 
